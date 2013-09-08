@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+Signal.trap("PIPE", "EXIT")
+
+require 'minty/cli'
+
+begin
+  command_class = Minty::CLI.factory ARGV.shift
+  command = command_class.new
+  command.parse_options
+  command.exec
+rescue Minty::Client::FailedLogin
+  puts <<-EOS
+Sorry. Your credentials are incorrect. Please try:
+
+  minty login
+  EOS
+end
