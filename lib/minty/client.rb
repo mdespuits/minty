@@ -1,5 +1,6 @@
 require 'minty/objects/account'
 require 'minty/objects/goal'
+require 'minty/objects/transaction'
 
 module Minty
   class Client
@@ -44,6 +45,13 @@ module Minty
           yield account if block_given?
           list << account
         end
+      }
+    end
+
+    def transactions
+      login {
+        response = agent.get("transactionDownload.event?").body
+        Minty::Objects::Transaction.build response
       }
     end
 

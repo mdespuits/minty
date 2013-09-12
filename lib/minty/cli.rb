@@ -6,6 +6,7 @@ require 'minty/cli/default'
 require 'minty/cli/login'
 require 'minty/cli/accounts'
 require 'minty/cli/refresh'
+require 'minty/cli/transactions'
 require 'minty/cli/goals'
 
 module Minty

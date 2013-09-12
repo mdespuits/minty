@@ -27,10 +27,11 @@ To see how to use `minty` on the command line, you can just run
 
     Available subcommands are:
 
-      login:    Save your Mint.com credentials for other actions
-      refresh:  Refresh your Mint.com accounts
-      accounts: Display a table of your Mint.com accounts
-      goals:    Display your Mint.com goals
+      login:        Save your Mint.com credentials for other actions
+      refresh:      Refresh your Mint.com accounts
+      accounts:     Display a table of your Mint.com accounts
+      goals:        Display your Mint.com goals
+      transactions: Transactions recorded on Mint.com
 
     For more options on each subcommand, try:
 
