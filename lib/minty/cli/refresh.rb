@@ -3,7 +3,6 @@ require 'minty/cli/command'
 module Minty
   class CLI
     class Refresh < Command
-
       banner "Usage: minty refresh"
 
       def exec
