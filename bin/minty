@@ -10,9 +10,11 @@ begin
   command.parse_options
   command.exec
 rescue Minty::Client::FailedLogin
-  puts <<-EOS
-Sorry. Your credentials are incorrect. Please try:
-
-  minty login
-  EOS
+  puts "Sorry. Your Mint.com credentials are invalid."
+  login = Minty::CLI::Login.new
+  login.parse_options
+  login.exec
+  command = command_class.new
+  command.parse_options
+  command.exec
 end
