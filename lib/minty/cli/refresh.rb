@@ -1,18 +1,13 @@
+require 'minty/cli/command'
+
 module Minty
   class CLI
-    class Refresh
-      include Mixlib::CLI
+    class Refresh < Command
 
       banner "Usage: minty refresh"
 
-      def initialize(*args)
-        super
-      end
-
       def exec
-        @credentials = Minty::Credentials.load
-        @client      = Minty::Client.new(@credentials)
-        @client.refresh
+        client.refresh
         puts "Refreshing..."
       end
 

@@ -1,9 +1,10 @@
 require 'io/console'
 
+require 'minty/cli/command'
+
 module Minty
   class CLI
-    class Login
-      include Mixlib::CLI
+    class Login < Command
 
       banner "Usage: minty login [options]"
 
