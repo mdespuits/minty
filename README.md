@@ -1,6 +1,6 @@
 # Minty
 
-TODO: Write a gem description
+The Mint.com command line tool.
 
 ## Installation
 
@@ -22,15 +22,15 @@ Or install it yourself as:
 
 To see how to use `minty` on the command line, you can just run
 
-    $ minty # or minty --help
+    $ minty
     Usage: minty [subcommand] [options]
 
     Available subcommands are:
 
-      login:          Save your Mint.com credentials for other actions
-      refresh:        Refresh your Mint.com accounts
-      accounts:       Display a table of your Mint.com accounts
-      goals:          Display your Mint.com goals
+      login:    Save your Mint.com credentials for other actions
+      refresh:  Refresh your Mint.com accounts
+      accounts: Display a table of your Mint.com accounts
+      goals:    Display your Mint.com goals
 
     For more options on each subcommand, try:
 
