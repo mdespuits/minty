@@ -10,17 +10,6 @@ require 'minty/cli/goals'
 
 module Minty
   class CLI
-    include Mixlib::CLI
-
-    option :email,
-      :short => "-e EMAIL",
-      :long => "--email EMAIL",
-      :description => "Your Mint.com email address"
-
-    option :password,
-      :short => "-p PASSWORD",
-      :long => "--password PASSWORD",
-      :description => "Your Mint.com password"
 
     def self.factory(name)
       class_name = name.to_s.strip.capitalize
