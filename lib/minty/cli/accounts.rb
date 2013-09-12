@@ -5,6 +5,8 @@ require 'minty/cli/command'
 module Minty
   class CLI
     class Accounts < Command
+      banner "Usage: minty accounts [options]"
+
       def exec
         table = Text::Table.new
         table.head = %w[Name Value Type]
