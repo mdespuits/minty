@@ -1,6 +1,13 @@
 module Minty
   module Objects
     class Account
+
+      def self.build(json)
+        json.each_with_object([]) do |account, list|
+          list.concat [self.new(account)]
+        end
+      end
+
       def initialize(account_hash)
         @hash = account_hash
       end

@@ -40,11 +40,7 @@ module Minty
         parsed_body = ::JSON.parse(response_body)
         accounts = parsed_body["response"]["com.rubygem.minty"].fetch("response") { [] }
 
-        accounts.each_with_object([]) do |a, list|
-          account = Minty::Objects::Account.new(a)
-          yield account if block_given?
-          list << account
-        end
+        Minty::Objects::Account.build(accounts)
       }
     end
 
