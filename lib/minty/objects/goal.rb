@@ -1,6 +1,8 @@
+require 'minty/objects/model'
+
 module Minty
   module Objects
-    class Goal
+    class Goal < Model
 
       def self.build(json)
         data  = JSON.parse(json)['set'][0]['data']
@@ -10,32 +12,17 @@ module Minty
         }
       end
 
-      def initialize(json_hash)
-        @hash = json_hash
-      end
-
-      def status
-        @hash["status"]
-      end
-
-      def name
-        @hash["name"]
-      end
-
-      def amount
-        @hash["targetAmt"]
-      end
-
-      def budget
-        @hash["budgetAmt"]
-      end
+      attribute :status
+      attribute :name
+      attribute :amount, "targetAmt"
+      attribute :budget, "budgetAmt"
 
       def complete?
-        @hash["status"] == "completed"
+        json["status"] == "completed"
       end
 
       def behind?
-        @hash["status"] == "behind"
+        json["status"] == "behind"
       end
 
     end

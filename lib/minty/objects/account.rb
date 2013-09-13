@@ -1,6 +1,8 @@
+require 'minty/objects/model'
+
 module Minty
   module Objects
-    class Account
+    class Account < Model
 
       def self.build(json)
         json.each_with_object([]) do |account, list|
@@ -8,44 +10,18 @@ module Minty
         end
       end
 
-      def initialize(account_hash)
-        @hash = account_hash
-      end
-
-      def to_h
-        @hash.dup
-      end
-
-      def [](value)
-        @hash[value]
-      end
-
-      def id
-        @hash['id']
-      end
-
-      def name
-        @hash['name']
-      end
-
-      def value
-        @hash['value']
-      end
-
-      def balance
-        @hash['currentBalance']
-      end
-
-      def type
-        @hash['accountType']
-      end
+      attribute :id
+      attribute :name
+      attribute :value
+      attribute :type, 'accountType'
+      attribute :balance, 'currentBalance'
 
       def active?
-        !!@hash['isActive']
+        !!json['isActive']
       end
 
       def closed?
-        !!@hash['isClosed']
+        !!json['isClosed']
       end
 
       def to_s

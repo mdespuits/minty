@@ -1,8 +1,9 @@
 require 'csv'
+require 'minty/objects/model'
 
 module Minty
   module Objects
-    class Transaction
+    class Transaction < Model
 
       def self.build(transaction_csv)
         transactions = []
@@ -12,42 +13,18 @@ module Minty
         transactions
       end
 
-      def initialize(row)
-        @row = row
-      end
-
-      def account
-        @row["Account Name"]
-      end
-
-      def description
-        @row["Description"]
-      end
-
-      def category
-        @row["Category"]
-      end
-
-      def labels
-        @row["Labels"]
-      end
+      attribute :account, "Account Name"
+      attribute :description, "Description"
+      attribute :category, "Category"
+      attribute :labels, "Labels"
+      attribute :original_description, "Original Description"
+      attribute :amount, "Amount"
+      attribute :transaction_type, "Transaction Type"
 
       DATE_FORMAT = '%m/%d/%Y'
 
       def date
-        Date.strptime(@row["Date"], DATE_FORMAT)
-      end
-
-      def original_description
-        @row["Original Description"]
-      end
-
-      def amount
-        @row["Amount"]
-      end
-
-      def transaction_type
-        @row["Transaction Type"]
+        Date.strptime(json["Date"], DATE_FORMAT)
       end
 
     end
