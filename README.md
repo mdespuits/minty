@@ -1,6 +1,6 @@
 # Minty
 
-The Mint.com command line tool.
+Minty is the Unofficial Ruby API for Mint.com.
 
 ## Installation
 
