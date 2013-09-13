@@ -4,7 +4,7 @@ module Minty
 
       def self.attribute(name, json_attr = nil)
         define_method(name) do
-          @json[(json_attr || name).to_s]
+          json[(json_attr || name).to_s]
         end
       end
 
