@@ -15,9 +15,16 @@ module Minty
 
       def exec
         table = Text::Table.new
-        table.head = %w[Description Amount Account Date]
+        table.head = %w[Description Amount Category Account Date]
+
         client.transactions.take(config[:count].to_i).each do |t|
-          table.rows << [t.description, t.amount, t.account, t.date]
+          table.rows << [
+            t.description,
+            t.amount,
+            t.category,
+            t.account,
+            t.date
+          ]
         end
         puts table
       end
