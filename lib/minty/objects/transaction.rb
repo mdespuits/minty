@@ -32,8 +32,10 @@ module Minty
         @row["Labels"]
       end
 
+      DATE_FORMAT = '%m/%d/%Y'
+
       def date
-        @row["Date"]
+        Date.strptime(@row["Date"], DATE_FORMAT)
       end
 
       def original_description
