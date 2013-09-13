@@ -51,18 +51,18 @@ module Minty
       }
     end
 
+    def goals
+      login {
+        page = agent.get("app/getJsonData.xevent?task=goals&rnd=1378927170581").body
+        result = Minty::Objects::Goal.build(page)
+      }
+    end
+
     def refresh
       login {
         agent.get("overview.event") # needs to see overview for whatever reason
         agent.post("refreshFILogins.xevent", "token" => @token)
         true
-      }
-    end
-
-    def goals
-      login {
-        page = agent.get("app/getJsonData.xevent?task=goals&rnd=1378927170581").body
-        result = Minty::Objects::Goal.build(page)
       }
     end
 
