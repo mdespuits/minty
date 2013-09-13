@@ -11,15 +11,13 @@ module Minty
         table = Text::Table.new
         table.head = %w[Name Amount Budget Status]
 
-        client.goals.each do |status, goals|
-          goals.each do |goal|
-            table.rows << [
-              goal.name,
-              goal.amount,
-              goal.budget,
-              status.capitalize
-            ]
-          end
+        client.goals.each do |goal|
+          table.rows << [
+            goal.name,
+            goal.amount,
+            goal.budget,
+            goal.status.capitalize
+          ]
         end
         puts table
       end

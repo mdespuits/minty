@@ -3,11 +3,11 @@ module Minty
     class Goal
 
       def self.build(json)
-        data = JSON.parse(json)['set'][0]['data']
+        data  = JSON.parse(json)['set'][0]['data']
         goals = (data["current"] + data["completed"])
-        grouped_goals = goals.each_with_object([]) { |goal, list|
+        goals.each_with_object([]) { |goal, list|
           list.concat [new(goal)]
-        }.to_a.group_by { |g| g.status }
+        }
       end
 
       def initialize(json_hash)
