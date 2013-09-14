@@ -3,9 +3,9 @@ module Minty
     extend self
 
     def dollars(value)
-      int, point = value.to_f.to_s.split(".")
-      point = point.ljust(2, "0")
-      "$ " << [int, point].join(".")
+      left, right = value.to_f.to_s.split(".")
+      cents = right.ljust(2, "0")
+      "$ " << [left, cents].join(".")
     end
   end
 end
