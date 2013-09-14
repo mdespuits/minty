@@ -1,5 +1,6 @@
 require 'text-table'
 
+require 'minty/utils'
 require 'minty/cli/command'
 
 module Minty
@@ -14,8 +15,8 @@ module Minty
         client.goals.each do |goal|
           table.rows << [
             goal.name,
-            goal.amount,
-            goal.budget,
+            { value: Utils.dollars(goal.amount), align: :right },
+            { value: Utils.dollars(goal.budget), align: :right },
             goal.status.capitalize
           ]
         end

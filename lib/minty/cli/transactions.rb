@@ -1,5 +1,6 @@
 require 'text-table'
 
+require 'minty/utils'
 require 'minty/cli/command'
 
 module Minty
@@ -20,7 +21,7 @@ module Minty
         client.transactions.take(config[:count].to_i).each do |t|
           table.rows << [
             t.description,
-            t.amount,
+            { value: Utils.dollars(t.amount), align: :right },
             t.category,
             t.account,
             t.date

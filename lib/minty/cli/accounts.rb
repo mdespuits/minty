@@ -1,5 +1,6 @@
 require 'text-table'
 
+require 'minty/utils'
 require 'minty/cli/command'
 
 module Minty
@@ -11,7 +12,7 @@ module Minty
         table = Text::Table.new
         table.head = %w[Name Value Type]
         client.accounts.sort_by { |a| -a.value }.each do |account|
-          table.rows << [account.name, account.value, account.type.capitalize]
+          table.rows << [account.name, Utils.dollars(account.value), account.type.capitalize]
         end
         puts table
       end
