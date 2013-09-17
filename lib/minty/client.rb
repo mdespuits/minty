@@ -53,12 +53,12 @@ module Minty
     end
 
     def categories
-      login do
+      login {
         response_body = agent.get("app/getJsonData.xevent?task=categories").body
         parsed_body = ::JSON.parse(response_body)
         categories = parsed_body["set"][0]["data"]
         Minty::Objects::Category.build(categories)
-      end
+      }
     end
 
     def goals

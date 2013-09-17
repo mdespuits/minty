@@ -1,6 +1,5 @@
 require 'text-table'
 
-require 'minty/utils'
 require 'minty/cli/command'
 
 module Minty
@@ -10,11 +9,11 @@ module Minty
 
       def exec
         table = Text::Table.new
-        table.head = ['Root ID', 'ID', 'Name', 'Standard']
+        table.head = ['Top Level', 'Child Category', 'Standard']
         client.categories.sort_by { |a| a.name }.each do |category|
-          table.rows << [category.id, nil, category.name, nil]
+          table.rows << [category.name, nil, nil]
           category.children.each do |child|
-            table.rows << [nil, child.id, child.name, child.standard?]
+            table.rows << [nil, child.name, child.standard? ? 'Yes' : 'No']
           end
         end
         puts table

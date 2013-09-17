@@ -20,15 +20,15 @@ module Minty
 
       attribute :id
       attribute :name, 'value'
-      attribute :level1, 'isL1'
+      attribute :top_level, 'isL1'
       attribute :standard, 'isStandard'
 
       def children
         @children ||= []
       end
 
-      def is_level1?
-        level1
+      def top_level?
+        top_level
       end
 
       def standard?
