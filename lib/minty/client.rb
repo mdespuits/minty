@@ -1,4 +1,5 @@
 require 'minty/objects/account'
+require 'minty/objects/category'
 require 'minty/objects/goal'
 require 'minty/objects/transaction'
 
@@ -48,6 +49,15 @@ module Minty
       login {
         response = agent.get("transactionDownload.event?").body
         Minty::Objects::Transaction.build response
+      }
+    end
+
+    def categories
+      login {
+        response_body = agent.get("app/getJsonData.xevent?task=categories").body
+        parsed_body = ::JSON.parse(response_body)
+        categories = parsed_body["set"][0]["data"]
+        Minty::Objects::Category.build(categories)
       }
     end
 
