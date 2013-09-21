@@ -43,7 +43,7 @@ module Minty
         end
         table.foot = [
           {:value => "Total:", :colspan => 2},
-          Utils.dollars(accounts.map(&:value).inject(0, :+))
+          Utils.dollars(total_value)
         ]
         puts table
       end
@@ -57,6 +57,10 @@ module Minty
           result = result.reverse if reverse?
           result.each(&blk) if block_given?
           result
+        end
+
+        def total_value
+          accounts.map(&:value).inject(0, :+)
         end
 
         def reverse?
