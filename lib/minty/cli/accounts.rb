@@ -39,8 +39,12 @@ module Minty
         table = Text::Table.new
         table.head = %w[Name Value Type]
         accounts do |account|
-          table.rows << [account.name, Utils.dollars(account.value), account.type.capitalize]
+          table.rows << [account.name, account.type.capitalize, Utils.dollars(account.value)]
         end
+        table.foot = [
+          {:value => "Total:", :colspan => 2},
+          Utils.dollars(accounts.map(&:value).inject(0, :+))
+        ]
         puts table
       end
 
@@ -51,7 +55,8 @@ module Minty
                     .reject { |a| excluded_account_types.include? a.type }
                     .sort_by { |a| a.send(sort_column) }
           result = result.reverse if reverse?
-          result.each(&blk)
+          result.each(&blk) if block_given?
+          result
         end
 
         def reverse?
