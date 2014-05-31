@@ -13,23 +13,17 @@ module Minty
       end
     end
 
-    def get(path, opts = {})
-      request(:get, path, opts)
+    def get(path, opts = [])
+      @mechanize.get("#{MINT_URL}#{path}", opts)
     end
 
-    def post(path, opts = {})
-      request(:post, path, opts)
+    def post(path, opts = {}, headers = {})
+      @mechanize.post("#{MINT_URL}#{path}", opts, headers)
     end
 
     def submit(*args)
       @mechanize.submit *args
     end
-
-    private
-
-      def request(type, path, opts = {})
-        @mechanize.send(type, "#{MINT_URL}#{path}", opts)
-      end
 
   end
 end

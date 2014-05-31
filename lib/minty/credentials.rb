@@ -33,7 +33,7 @@ module Minty
 
     attr_writer :email, :password
 
-    def initialize(email, password)
+    def initialize(email=nil, password=nil)
       @email = email
       @password = password
     end
