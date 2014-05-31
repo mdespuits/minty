@@ -45,10 +45,18 @@ module Minty
       }
     end
 
-    def transactions
+    def transactions(args)
+      args = {:filterType => "cash", :offset => 0, :comparableType => 0,
+        :queryNew => '', :task => 'transactions'}.merge args
+
+      args[:startDate] = args[:startDate].strftime('%m/%d/%Y') if args[:startDate].is_a?(Date)
+      args[:endDate] = args[:endDate].strftime('%m/%d/%Y') if args[:endDate].is_a?(Date)
+
       login {
-        response = agent.get("transactionDownload.event?").body
-        Minty::Objects::Transaction.build response
+        response_body = agent.get("app/getJsonData.xevent?#{URI.encode_www_form(args)}").body
+        parsed_body = ::JSON.parse(response_body)
+        transactions = parsed_body["set"][0]["data"]
+        Minty::Objects::Transaction.build(transactions).values
       }
     end
 
@@ -76,18 +84,26 @@ module Minty
       }
     end
 
+    def update(obj)
+      raise TypeError unless obj.is_a? Transaction
+      login {
+        agent.post("/updateTransaction.xevent", obj.to_update.merge!("token" => @token),
+                   {"Origin" => MINT_URL, "Referer" => "#{MINT_URL}/transaction.event"})
+      }
+    end
+      
     private
-
       def login
         return yield if @token
-        page = agent.get('login.event')
-        form = page.form_with(id: "form-login")
-        form.username = credentials.email
-        form.password = credentials.password
-        page = agent.submit(form, form.buttons.first)
+        agent.post('getUserPod.xevent', :username => credentials.email)
+        page = agent.post('loginUserSubmit.xevent', :username => credentials.email,
+                          :password => credentials.password, :task => 'L',
+                          :nextPage => '', :browser => 'Chrome', :browserVersion => 32,
+                          :os => 'v')
 
         raise FailedLogin unless page.at('input').attributes["value"]
-        @token = ::JSON.parse(page.at('input').attributes["value"].value)['token']
+        #@token = ::JSON.parse(page.at('input').attributes["value"].value)['token']
+        @token = page.at('input').attributes["value"].value['token']
         yield
       end
 
