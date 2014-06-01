@@ -80,14 +80,14 @@ module Minty
 
       def login
         return yield if @token
-        page = agent.get('login.event')
-        form = page.form_with(id: "form-login")
-        form.username = credentials.email
-        form.password = credentials.password
-        page = agent.submit(form, form.buttons.first)
+        agent.post("getUserPod.xevent", :username => credentials.email)
+        page = agent.post("loginUserSubmit.xevent", :username => credentials.email,
+                          :password => credentials.password, :task => 'L',
+                          :nextPage => '', :browser => 'Chrome', :browserVersion => 32,
+                          :os => 'v')
 
         raise FailedLogin unless page.at('input').attributes["value"]
-        @token = ::JSON.parse(page.at('input').attributes["value"].value)['token']
+        @token = page.at('input').attributes["value"].value['token']
         yield
       end
 
