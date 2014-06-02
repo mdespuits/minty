@@ -1,6 +1,7 @@
 # Minty
 
 [![Build Status](https://travis-ci.org/mattdbridges/minty.svg?branch=master)](https://travis-ci.org/mattdbridges/minty)
+[![Code Climate](https://codeclimate.com/github/mattdbridges/minty.png)](https://codeclimate.com/github/mattdbridges/minty)
 
 Minty is the Unofficial Ruby API for Mint.com.
 
