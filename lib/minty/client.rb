@@ -37,9 +37,9 @@ module Minty
 
     def accounts
       login {
-        response_body = agent.post("bundledServiceController.xevent", "token" => @token, "input" => ACCOUNT_REQUEST.to_json).body
+        response_body = agent.get("app/getJsonData.xevent?task=accounts").body
         parsed_body = ::JSON.parse(response_body)
-        accounts = parsed_body["response"]["com.rubygem.minty"].fetch("response") { [] }
+        accounts = parsed_body["set"][0]["data"]
 
         Minty::Objects::Account.build(accounts)
       }
