@@ -1,5 +1,7 @@
 # Minty
 
+[![Build Status](https://travis-ci.org/mattdbridges/minty.svg?branch=master)](https://travis-ci.org/mattdbridges/minty)
+
 Minty is the Unofficial Ruby API for Mint.com.
 
 ## Installation
