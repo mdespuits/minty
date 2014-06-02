@@ -21,6 +21,8 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "rake"
   spec.add_development_dependency "rspec"
+  spec.add_development_dependency "vcr"
+  spec.add_development_dependency "webmock"
 
   spec.add_runtime_dependency "mechanize",  "~> 2.7.2"
   spec.add_runtime_dependency "text-table", "~> 1.2.3"

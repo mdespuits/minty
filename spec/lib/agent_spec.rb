@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe Minty::Agent do
+
   it "should hit the login page with a GET request" do
     Mechanize.any_instance.should_receive(:get).with "https://wwws.mint.com/login.event", {}
     agent = Minty::Agent.new

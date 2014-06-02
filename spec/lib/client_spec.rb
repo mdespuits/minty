@@ -12,8 +12,10 @@ describe Minty::Client do
 
   describe "#accounts" do
     it "should return an array of accounts" do
-      expect(client.accounts).to be_a Array
-      expect(client.accounts.first).to be_a Minty::Objects::Account
+      VCR.use_cassette("validate_accounts") do |vcr|
+        expect(client.accounts).to be_a Array
+        expect(client.accounts.first).to be_a Minty::Objects::Account
+      end
     end
   end
 

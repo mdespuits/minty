@@ -5,4 +5,6 @@ rvm:
   - ruby-head
   - rbx-2
   - jruby
+env:
+  - MINTY_PASSWORD=not_real_example_password
 script: bundle exec rspec
