@@ -6,6 +6,7 @@ module Minty
 
       def self.build(json)
         json.each_with_object([]) do |account, list|
+          account['value'] = account['value'].sub("\u2013", '-').delete('$').to_f
           list.concat [self.new(account)]
         end
       end
@@ -13,8 +14,8 @@ module Minty
       attribute :id
       attribute :name
       attribute :value
-      attribute :type, 'accountType'
-      attribute :balance, 'currentBalance'
+      attribute :type, 'klass'
+      attribute :balance, 'bal'
 
       def active?
         !!json['isActive']

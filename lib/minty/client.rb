@@ -37,9 +37,9 @@ module Minty
 
     def accounts
       login {
-        response_body = agent.post("bundledServiceController.xevent", "token" => @token, "input" => ACCOUNT_REQUEST.to_json).body
+        response_body = agent.get("app/getJsonData.xevent?task=accounts").body
         parsed_body = ::JSON.parse(response_body)
-        accounts = parsed_body["response"]["com.rubygem.minty"].fetch("response") { [] }
+        accounts = parsed_body["set"][0]["data"]
 
         Minty::Objects::Account.build(accounts)
       }
@@ -80,14 +80,14 @@ module Minty
 
       def login
         return yield if @token
-        page = agent.get('login.event')
-        form = page.form_with(id: "form-login")
-        form.username = credentials.email
-        form.password = credentials.password
-        page = agent.submit(form, form.buttons.first)
+        agent.post("getUserPod.xevent", :username => credentials.email)
+        page = agent.post("loginUserSubmit.xevent", :username => credentials.email,
+                          :password => credentials.password, :task => 'L',
+                          :nextPage => '', :browser => 'Chrome', :browserVersion => 32,
+                          :os => 'v')
 
         raise FailedLogin unless page.at('input').attributes["value"]
-        @token = ::JSON.parse(page.at('input').attributes["value"].value)['token']
+        @token = page.at('input').attributes["value"].value['token']
         yield
       end
 

@@ -37,7 +37,7 @@ module Minty
 
       def exec
         table = Text::Table.new
-        table.head = %w[Name Value Type]
+        table.head = %w[Name Type Value]
         accounts do |account|
           table.rows << [account.name, account.type.capitalize, Utils.dollars(account.value)]
         end
