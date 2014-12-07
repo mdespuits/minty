@@ -15,9 +15,7 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install minty
+Right now, `minty` is not stable and is not on Rubygems, so you can clone it down locally to use it. Simply use `bin/minty` as the command instead of just `minty`.
 
 ## Usage
 
