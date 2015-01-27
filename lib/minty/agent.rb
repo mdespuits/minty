@@ -8,7 +8,7 @@ module Minty
 
     def initialize
       @mechanize = ::Mechanize.new do |a|
-        a.ssl_version = 'SSLv3'
+        a.ssl_version = 'TLSv1_2'
         a.verify_mode = OpenSSL::SSL::VERIFY_NONE
       end
     end
