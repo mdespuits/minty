@@ -6,7 +6,7 @@ module Minty
 
       def self.build(json)
         json.each_with_object([]) do |account, list|
-          account['value'] = account['value'].sub("\u2013", '-').delete('$').to_f
+          account['value'] = account['value'].delete(',').sub("\u2013", '-').delete('$').to_f
           list.concat [self.new(account)]
         end
       end
