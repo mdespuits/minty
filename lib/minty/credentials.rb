@@ -57,6 +57,7 @@ module Minty
         store['mint_email'] = email.strip
         store['mint_password'] = password.strip
       }
+      FileUtils.chmod(0600, self.class.file)
       self
     end
 
