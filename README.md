@@ -7,15 +7,27 @@ Minty is the Unofficial Ruby API for Mint.com.
 
 ## Installation
 
+Currently, `minty` is not entirely stable and is unavailable on Rubygems. You can still clone it down locally and install it via `gem` or `bundler`. You may need to use `bin/minty` instead of just `minty` depending on your installation method and environment.
+
+### Using gem
+
+From the gem's working directory, run:
+
+    $ gem install pkg/minty-*.gem
+
+### Using bundler
+
 Add this line to your application's Gemfile:
 
-    gem 'minty'
+    gem 'minty', git: 'git://github.com/mattdbridges/minty.git'
+
+Alternatively, you can include it from a local directory
+
+    gem 'minty', path: './vendor/minty'
 
 And then execute:
 
     $ bundle
-
-Right now, `minty` is not stable and is not on Rubygems, so you can clone it down locally to use it. Simply use `bin/minty` as the command instead of just `minty`.
 
 ## Usage
 
