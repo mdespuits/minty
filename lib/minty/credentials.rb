@@ -52,7 +52,7 @@ module Minty
     alias to_ary to_a
 
     def save
-      store = YAML::Store.new self.class.file
+      store = YAML::Store.new self.class.file.to_s
       store.transaction {
         store['mint_email'] = email.strip
         store['mint_password'] = password.strip
