@@ -3,17 +3,10 @@ require 'yaml/store'
 require 'etc'
 require 'pathname'
 require 'fileutils'
+require 'openssl'
 
 module Minty
   class Credentials
-
-    def self.load
-      config = YAML.load_file file
-      new(config['mint_email'], config['mint_password'])
-    rescue => e
-      new('', '').save
-    end
-
     def self.system_user
       Etc.getlogin
     end
@@ -31,18 +24,29 @@ module Minty
       FileUtils.rm_r file
     end
 
-    attr_writer :email, :password
-
-    def initialize(email, password)
-      @email = email
-      @password = password
+    def self.load
+      config = YAML.load_file file
+      new(config['mint_email'], config['mint_password'], encrypted: true)
+    rescue => e
+      new('', '').save
     end
+
+    def initialize(email, password, options = {})
+      @email = email
+      @password = options[:encrypted] ? decrypt(password) : password
+    end
+
+    attr_writer :email, :password
 
     def email
       ENV.fetch("MINTY_EMAIL", @email).strip
     end
 
     def password
+      environment_password || @password
+    end
+
+    def environment_password
       ENV.fetch("MINTY_PASSWORD", @password).strip
     end
 
@@ -55,8 +59,9 @@ module Minty
       store = YAML::Store.new self.class.file.to_s
       store.transaction {
         store['mint_email'] = email.strip
-        store['mint_password'] = password.strip
+        store['mint_password'] = encrypt(password)
       }
+      FileUtils.chmod(0600, self.class.file)
       self
     end
 
@@ -64,5 +69,24 @@ module Minty
       [email, password].map(&:strip).none?(&:empty?)
     end
 
+    private
+
+    def self.default_key
+      self.file.to_s
+    end
+
+    def cipher(mode, key, data)
+      cipher = OpenSSL::Cipher::Cipher.new('bf-cbc').send(mode)
+      cipher.key = Digest::SHA256.digest(key)
+      cipher.update(data) << cipher.final
+    end
+
+    def encrypt(data, key = self.class.default_key)
+      data.empty? ? '' : cipher(:encrypt, key, data)
+    end
+
+    def decrypt(text, key = self.class.default_key)
+      text.empty? ? '' : cipher(:decrypt, key, text)
+    end
   end
 end

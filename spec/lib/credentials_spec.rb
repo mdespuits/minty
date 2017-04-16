@@ -10,7 +10,6 @@ class Minty::Credentials
 end
 
 describe Minty::Credentials do
-
   before do |example|
     Minty::Credentials.reset!
     Minty::Credentials.stub(:filename) { ".fakeminty" }
@@ -20,10 +19,14 @@ describe Minty::Credentials do
     Minty::Credentials.clear!
   end
 
-  it "should be able to clear the credentials" do
+  it "should set @email and @password on initialize" do
     credentials = Minty::Credentials.new('test', 'pass').save
     expect(credentials.email).to eq 'test'
     expect(credentials.password).to eq 'pass'
+  end
+
+  it "should be able to clear the credentials" do
+    credentials = Minty::Credentials.new('test', 'pass').save
     Minty::Credentials.clear!
     credentials = Minty::Credentials.load
     expect(credentials.email).to eq ''
@@ -42,16 +45,14 @@ describe Minty::Credentials do
   end
 
   it "should be able to load credentials" do
-    credentials = Minty::Credentials.new("test", "pass")
-    credentials.save
+    credentials = Minty::Credentials.new("test", "pass").save
     result = Minty::Credentials.load
     expect(result.email).to eq "test"
     expect(result.password).to eq "pass"
   end
 
   it "should be able to update credentials" do
-    credentials = Minty::Credentials.new("test", "pass")
-    credentials.save
+    credentials = Minty::Credentials.new("test", "pass").save
     credentials.email = "test2"
     credentials.save
     result = Minty::Credentials.load
@@ -72,7 +73,7 @@ describe Minty::Credentials do
     ENV["MINTY_PASSWORD"] = 'envpass'
     credentials = Minty::Credentials.load
     credentials.email = "test"
-    credentials.password = "test"
+    credentials.password = "pass"
     credentials.save
     expect(credentials.email).to eq "envtest"
     expect(credentials.password).to eq "envpass"
@@ -91,4 +92,18 @@ describe Minty::Credentials do
     expect(credentials.setup?).to eq true
   end
 
+  it "should encrypt text strings" do
+    password = "pass"
+    credentials = Minty::Credentials.new('test', password)
+    encrypted_password = credentials.send(:encrypt, password)
+    expect(encrypted_password).to_not eq password
+  end
+
+  it "should encrypt and decrypt text strings" do
+    password = "pass"
+    credentials = Minty::Credentials.new('test', password)
+    encrypted_password = credentials.send(:encrypt, password)
+    decrypted_password = credentials.send(:decrypt, encrypted_password)
+    expect(decrypted_password).to eq password
+  end
 end
